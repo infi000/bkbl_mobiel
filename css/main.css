@@ -1,0 +1,518 @@
+body,
+html {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    /*font-size: 10px;*/
+    font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+ul {
+    list-style: none;
+}
+
+.page,
+body {
+    background-color: #f8f8f8;
+}
+
+.link {
+    color: #1aad19;
+}
+
+.wrap {
+    overflow: hidden;
+}
+
+.wrap,
+.page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.page {
+    z-index: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.wrap .showBox {
+    padding-bottom: 50px;
+    overflow: hidden;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+.page_hd {
+    width: 100%;
+}
+
+#video {
+    width: 100%;
+    height: 240px;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+.wrap .weui-media-box__bd {
+    position: relative;
+}
+
+.wrap .weui-navbar__item {
+    padding: 6px;
+    cursor: pointer;
+}
+
+.wrap .weui-navbar__item .weui-badge {
+    position: absolute;
+    top: -.2em;
+    right: 0.2em;
+}
+
+.wrap .swiper-button-next,
+.wrap .swiper-button-prev {
+    zoom: .5;
+}
+
+.wrap .weui-media-box {
+    padding: 4px 8px;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+}
+
+.wrap .rep_box .weui-media-box {
+    zoom: .8;
+    padding: 4px 8px;
+    width: 100%;
+}
+
+.wrap .weui-media-box_appmsg .weui-media-box__hd {
+    width: 40px;
+    max-height: 40px;
+    margin-right: .5em;
+}
+
+.wrap .weui-media-box_appmsg .weui-media-box__thumb {
+    font-weight: 500;
+    padding-top: 4px;
+    color: #2b2b2b;
+}
+
+.wrap .weui-media-box__desc {
+    font-size: 14px;
+    line-height: 1.4;
+    text-indent: .3em;
+    color: #4a4a4a;
+}
+
+.wrap .weui-media-box__desc img {
+    box-sizing: border-box;
+    height: 100px;
+    padding: 8px;
+}
+
+.wrap .weui-media-box__title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1b5e94;
+}
+
+.rep_box .weui-media-box__title {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.wrap .weui-media-box__bd p {
+    padding-top: 4px;
+}
+
+.page .weui-uploader__file {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+
+/*.weui-grids a{
+        padding: 4px 2px;
+    text-align: center;
+    height: 80px;
+}
+.weui-grids a img{
+    height: 100%;
+}
+*/
+
+.rep_box .weui-media-box__bd p {
+    font-size: 12px;
+    overflow: visible;
+    text-overflow: initial;
+    -webkit-line-clamp: initial;
+}
+
+.rep_box .weui-media-box_appmsg .weui-media-box__hd {
+    margin-right: .4em;
+}
+
+.badge-top {
+    font-size: 12px;
+    margin-right: 4px;
+    margin-left: -.3em;
+    padding: 1px 5px;
+    vertical-align: top;
+    text-indent: 0;
+    border-radius: 3px;
+    background: #2196f3;
+}
+
+.rep_box {
+    /*  display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;*/
+    margin-top: 6px;
+    padding-left: .3em;
+    background: #efefef;
+    /*    -webkit-box-align: start;
+    -webkit-align-items: start;
+    align-items: start;*/
+}
+
+.rep_item {
+    width: 100%;
+    margin-left: 17px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.rep_info {
+    line-height: 1.2;
+    position: relative;
+    overflow: hidden;
+    padding: 0 4px;
+}
+
+.rep_tag {
+    float: left;
+}
+
+.rep_time {
+    font-size: 12px;
+    float: left;
+    margin-top: .03rem;
+    color: #999;
+}
+
+.rep_del {
+    font-size: 12px;
+    margin-left: 6px;
+    color: #1b5e94;
+}
+
+.rep_info .weui-navbar {
+    z-index: 1100;
+    right: 28px;
+    width: 70%;
+    color: #fff;
+    border-radius: 4px;
+    background-color: #3c3432;
+}
+
+.rep_info .weui-navbar:after {
+    border-bottom: 0;
+}
+
+.rep_info .weui-navbar .weui-navbar__item {
+    font-size: 13px;
+}
+
+.rep_info .weui-navbar i {
+    font-size: 13px;
+    margin-right: 4px;
+}
+
+.btn_getTools {
+    float: right;
+    cursor: pointer;
+}
+
+.btn_playRecord {
+    width: 26%;
+    background: #9E9E9E;
+    padding: 2px;
+    display: inline-block;
+    border-radius: 2px;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 4px;
+}
+
+.rep_info .btn_getTools i {
+    font-size: 20px;
+    font-weight: 400;
+    color: #fff;
+    background: #0e2c44;
+}
+
+.rep_head {
+    width: 30px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    vertical-align: top;
+}
+
+.rep_city {
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #9e9e9e;
+}
+
+.rep_tag i {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1b5e94;
+}
+
+.comment {
+    position: absolute;
+    bottom: 180px;
+    width: 100%;
+    /* left: 5%;
+    width: 90%;*/
+}
+
+.comment_nav {
+    position: absolute;
+    top: initial;
+    bottom: 126px;
+}
+
+.comment_nav i {
+    margin-right: 8px;
+}
+
+.comment_btnBox {
+    position: absolute;
+    bottom: 10px;
+    left: 5%;
+    width: 90%;
+}
+
+.speak {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.speak a {
+    border-radius: 0;
+}
+
+#btn_more {
+    width: 70%;
+    color: #777;
+    margin-top: 20px;
+}
+
+#btn_playVideo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    line-height: 80px;
+    margin-left: -40px;
+    margin-top: -40px;
+}
+
+#btn_playVideo .iconfont {
+    font-size: 70px;
+    color: #fff;
+}
+
+.swiper-container2 {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper2-slide-a {
+    display: block;
+    height: 100%;
+    text-align: center;
+}
+
+.swiper2-slide-a img {
+    height: 100%;
+}
+
+.swiper-slide-a {
+    display: block;
+    height: 50px;
+    background-image: url(../img/banner.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.viewType {
+    width: 100%;
+    position: relative;
+    /* text-align: center; */
+    margin-top: 4px;
+    line-height: 1.2;
+}
+
+.viewType a .iconfont {
+    position: relative;
+    top: 2px;
+    font-size: 19px;
+}
+.viewType a{
+    color: #1b5e94;
+}
+
+.viewBox {
+    width: 90%;
+    height: 200px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    text-align: center;
+    box-sizing: border-box;
+    background: #000;
+    position: relative;
+}
+
+.viewBox img {
+    height: 100%;
+}
+
+.btn_playView {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    line-height: 80px;
+    margin-left: -40px;
+    margin-top: -40px;
+}
+
+.btn_playView .iconfont {
+    font-size: 70px;
+    color: #fff;
+}
+
+.wonder_p {
+    font-size: 12px;
+    margin-left: 0.3em;
+}
+
+#wonder {
+    margin-top: 0;
+    background-color: #f8f8f8;
+}
+
+#wonder .badge-top {
+    margin-left: 0;
+}
+
+#wonder .weui-cell {
+    -webkit-box-align: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    padding: 4px 15px;
+}
+
+#wonderBd .weui-media-box_appmsg {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+}
+
+#wonderBd .weui-media-box__hd {
+    width: 40px;
+    height: 40px;
+    padding-top: 0.3em;
+    box-sizing: content-box;
+}
+
+#wonderBd .weui-media-box__title {
+    font-size: 14px;
+}
+
+#wonderBd .weui-media-box {
+    padding: 4px 6px;
+}
+
+#wonderBd .viewType {
+    margin-top: 0;
+}
+
+#wonderBd .btn_getTools {
+    display: none;
+}
+
+#wonderVideo {
+    position: relative;
+    height: 190px;
+    overflow: hidden;
+}
+
+#wonderBack {
+    font-size: 14px;
+    color: #2196f3;
+    float: right;
+}
+
+#wonderBd p {
+    position: relative;
+}
+
+#wonderBd p img {
+    width: 100%;
+}
+
+#wonderBd h3 {
+    font-size: 14px;
+    color: #9E9E9E
+}
+
+#wonderBd h3 i {
+    float: right;
+    margin-left: 4px;
+}
+
+#wonderMsg {
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.viewVideo {
+    width: 100%;
+    height: 200px;
+}
+
+#wonderVideo .viewVideo {
+    height: 100%;
+}
+
+.btn_wonderRet{
+     padding: 6px 12px;
+
+}

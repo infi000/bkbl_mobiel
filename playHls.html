@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta content="email=no" name="format-detection" />
+    <meta name="apple-touch-fullscreen" content="YES">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title> </title>
+    <!-- <script src="./js/lib/jquery.min.js"></script> -->
+    <script src="./js/lib/ckplayer/ckplayer.js"></script>
+    <!-- <script src="./js/tools.js"></script> -->
+    <style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    body,
+    html {
+        height: 100%;
+        -webkit-tap-highlight-color: transparent;
+        background: #000;
+    }
+    
+    #a1 {
+        width: 100%;
+        height: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="a1"></div>
+    <script>
+    var URL = decodeURIComponent(getSearch().source) || "http://125.88.92.166:30001/PLTV/88888956/224/3221227703/1.m3u8&s=4&c=0&p=1";
+    var flashvars = {
+        f: 'js/lib/m3u8/m3u8.swf',
+        a: URL, //视频地址
+        s: 4,
+        c: 0,
+        p: 1, //自动播放0不 1自动
+        // lv:1,//直播形式1直播 2普通
+        loaded: "", //播放器加载后调用js
+    };
+    var params = {
+        bgcolor: '#FFF',
+        allowFullScreen: true,
+        allowScriptAccess: 'always',
+        wmode: 'transparent'
+    };
+    var video = [URL];
+    CKobject.embed('./js/lib/ckplayer/ckplayer.swf', 'a1', 'ckplayer_a1', '100%', '100%', false, flashvars, video, params);
+
+    function getSearch(str) {
+        var s = str || document.location.search;
+        if (!s) return {};
+        var arr = s.split("?")[1].split("&"),
+            o = {};
+        for (var i = 0; i < arr.length; i++) {
+            var _key = arr[i].split("=")[0],
+                _value = arr[i].split("=")[1];
+            o[_key] = _value;
+        }
+        return o;
+    };
+
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                var clientHeight = docEl.clientHeight;
+                if (!clientWidth) return;
+                //客户端变换
+                var a1 = document.getElementById("a1");
+                a1.style.width = "100%";
+                a1.style.height = "98%";
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    </script>
+</body>
+
+</html>
