@@ -29,7 +29,8 @@ var DO = document,
     },
     XID = getSearch().xopenid || "",
     TID = getSearch().talk_id || "",
-    AU = getSearch().author || "";
+    AU = getSearch().author || "",
+    atoken = "";
 
 function getSearch(str) {
     var s = str || document.location.search;
@@ -96,6 +97,8 @@ function arrayDel(arr, val) {
             var clientWidth = docEl.clientWidth;
             var clientHeight = docEl.clientHeight;
             if (!clientWidth) return;
+
+            console.log(clientHeight, clientWidth);
             //客户端变换
             //1banner 高度 2评论区高度 3视频高度
 
@@ -114,8 +117,9 @@ function arrayDel(arr, val) {
                 video.height(video_h);
             }
             if (typeOf(con[0]) == "dom") {
-                var hd_h = $(".page_hd").height(),
-                    con_h = $DB.height() - hd_h - 100;
+                var hd_h = $(".page_hd").height() + 50,
+                    con_h = clientHeight - hd_h - 100;
+                console.log(clientHeight, hd_h, con_h);
                 con.height(con_h)
             }
 
@@ -125,9 +129,25 @@ function arrayDel(arr, val) {
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 
-function imgError(image,url) {
+function imgError(image, url,style) {
     image.onerror = "";
-    image.src = url||"./img/logo2.png";
+    image.src = url || "./img/logo2.png";
+    var _s=style||{};
+    $(image).css(_s);
     return true;
 }
+
+function getAtoken() {
+    var data = { m: 2101, token: '3209ade809e14ff107dbb0654b8b4641', at: timestamp() };
+    invoke({
+        data: data,
+        fun: function(d) {
+            atoken = d
+        }
+    });
+};
+function timestamp() {
+    //时间戳
+    return new Date().getTime()
+};
 

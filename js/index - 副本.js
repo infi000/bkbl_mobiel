@@ -4,11 +4,11 @@ $(document).ready(function($) {
     var mySwiper = new Swiper('.swiper-container', {
         autoplay: 5000, //可选选项，自动滑动
     });
-    getAtoken();
+
     z_init.init();
 
 });
-wsInit();
+
 
 var z_init = new Z_init();
 
@@ -586,10 +586,9 @@ function Z_init() {
                 var img_html = "";
                 for (var i = 0; i < arr.length; i++) {
                     var id = arr[i];
-                    // wximgArr.push(id);
-                    img_html += '<img src="http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=' + atoken + '&media_id=' + id + '" class="btn_preview"  onerror="imgError(this,\'./img/overtime.png\',{width:80,height:40})">';
+                    wximgArr.push(id);
+                    img_html += '<img src="./img/loading.gif" id="' + id + '" class="btn_preview" style="height:auto">';
                 };
-                // <img src="http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=' + atoken + '&media_id=' + imgarr[key] + '"
                 html_message = '<p class="weui-media-box__desc">' + html_top + img_html + '</p>';
                 break;
             case "2":
@@ -605,7 +604,7 @@ function Z_init() {
         switch (type) {
             case "3":
                 //视频
-                html_message += '<div class="viewType" ><div class="viewBox"><img src="' + image + '" style="height:200px;max-width:100%" onerror="imgError(this)"><span class="btn_playView" dataType="' + video + ' "><i class="iconfont icon-bofang1"></i></span></div></div>';
+                html_message += '<div class="viewType" ><div class="viewBox"><img src="' + image + '" style="height:200px;" onerror="imgError(this)"><span class="btn_playView" dataType="' + video + ' "><i class="iconfont icon-bofang1"></i></span></div></div>';
                 break;
             case "4":
                 //链接
@@ -645,9 +644,9 @@ function Z_init() {
                 script = "";
             for (var i = 0; i < source.length; i++) {
                 var s = source[i],
-                    url = (s.url == "") ? "" : "href='" + s.url + "'",
+                    url = s.url,
                     img = s.image;
-                html += '<div class="swiper-slide"><a class="swiper2-slide-a" ' + url + '><img src="' + img + '""></a></div>';
+                html += '<div class="swiper-slide"><a class="swiper2-slide-a" href="' + url + '"><img src="' + img + '""></a></div>';
             }
             html += '</div></div>';
 
@@ -942,6 +941,17 @@ function Z_init() {
     //刷新聊天列表
     this.refresh_chat = function(opt) {
         var $opt = opt || {};
+        // var btn = $("#btn_more")[0];
+        // if (typeOf(btn) != "dom") {
+        //     for (var i = 0; i < $opt.length; i++) {
+        //         $("#chatBox").append(that.dom_chatLine($opt[i]));
+        //     };
+        //     $("#chatBox").append('<a href="javascript:;" class="weui-btn weui-btn_default " id="btn_more">加载更多</a>')
+        // } else {
+        //     for (var i = 0; i < $opt.length; i++) {
+        //         $(btn).before(that.dom_chatLine($opt[i]));
+        //     };
+        // }
         for (var i = 0; i < $opt.length; i++) {
             $("#chatBox").append(that.dom_chatLine($opt[i]));
         };
@@ -1146,7 +1156,8 @@ function Z_init() {
                         //显示加载更多
                         $("#chatBox").append('<a href="javascript:;" class="weui-btn weui-btn_default " id="btn_more">加载更多</a>')
                         $(that.ele.nowLoding).remove();
-
+                        that.getImg(0);
+                        wximgArr = [];
                         return
                     } else {
                         //继续执行
@@ -1158,7 +1169,8 @@ function Z_init() {
                             }
                             $("#chatBox").append('<div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">暂无数据</span></div>');
                             $(that.ele.nowLoding).remove();
-
+                            that.getImg(0);
+                            wximgArr = [];
                             return
                         } else {
                             top = "";
@@ -1183,7 +1195,8 @@ function Z_init() {
                         }
                         $("#chatBox").append('<div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">暂无数据</span></div>');
                         $(that.ele.nowLoding).remove();
-
+                        that.getImg(0);
+                        wximgArr = [];
                         return
                     }
                 }
@@ -1209,8 +1222,8 @@ function Z_init() {
                     var $d = d[i],
                         img = $d.image,
                         title = $d.title,
-                        url = ($d.url == "") ? "" : "href='" + $d.url + "'";
-                    bn += '<div class="swiper-slide"><div class="swiper-slide-a" style="background-image: url(' + img + ')" dataType="' + encodeURIComponent(JSON.stringify($d)) + '"><a ' + url + '></a></div></div>';
+                        url = $d.url;
+                    bn += '<div class="swiper-slide"><a class="swiper-slide-a" href="' + url + '" style="background-image: url(' + img + ')" dataType="' + encodeURIComponent(JSON.stringify($d)) + '"></a></div>';
                 }
                 var html = '<div class="swiper-container"><div class="swiper-wrapper">' + bn + '</div></div>' + styleHtml;
                 $(".page_bn").html(html);
@@ -1535,42 +1548,41 @@ function Z_init() {
     };
     //获取服务器图片
     this.getImg = function(x, arr) {
-        var $arr = arr || wximgArr,
-            $i = x,
-            _i,
-            len = $arr.length,
-            id = $arr[$i]; //服务器ID
-        if ($i >= len || len == 0) {
-            return
-        };
-        console.log($arr)
-        that.weixin.img.download({
-            id: id,
-            fun2: function(d) {
-                _i = parseInt($i) + 1;
-                alert(d);
-                alert($i);
-                if (window.__wxjs_is_wkwebview) {
-                    wx.getLocalImgData({
-                        localId: d, // 图片的localID
-                        success: function(res) {
-                            var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                            $("#" + id + "").attr("src", localData);
-                            $("#" + id + "").css("height", "");
-                            that.getImg(_i, $arr);
-                        }
-                    });
-                } else {
-                    // alert(d,x);
-                    $("#" + id + "").attr("src", d);
-                    $("#" + id + "").css("height", "");
-                    that.getImg(_i, $arr)
+            var $arr = arr || wximgArr,
+                $i = x,
+                _i,
+                len = $arr.length,
+                id = $arr[$i]; //服务器ID
+            if ($i >= len || len == 0) {
+                return
+            };
+            console.log($arr)
+            that.weixin.img.download({
+                id: id,
+                fun2: function(d) {
+                    _i = parseInt($i) + 1;
+                    alert(d);
+                    alert($i);
+                    if (window.__wxjs_is_wkwebview) {
+                        wx.getLocalImgData({
+                            localId: d, // 图片的localID
+                            success: function(res) {
+                                var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                $("#" + id + "").attr("src", localData);
+                                $("#" + id + "").css("height", "");
+                                that.getImg(_i, $arr);
+                            }
+                        });
+                    } else {
+                        // alert(d,x);
+                        $("#" + id + "").attr("src", d);
+                        $("#" + id + "").css("height", "");
+                        that.getImg(_i, $arr)
+                    }
                 }
-            }
-        });
-        wximgArr = [];
-    };
-    //播放视频
+            });
+        }
+        //播放视频
     this.playVideo = function() {
         var url,
             html,
@@ -1656,82 +1668,99 @@ wx.ready(function() {
 
 });
 //socket服务配置
+var ws = new WebSocket(URL_socket);
+ws.onopen = function() {
+    // Web Socket 已连接上，使用 send() 方法发送数据
 
-function wsInit() {
-    window.ws = new WebSocket(URL_socket);
+    console.log("链接成功...");
+};
 
-    ws.onopen = function() {
-        // Web Socket 已连接上，使用 send() 方法发送数据
-        alert("链接成功...");
-    };
-
-    ws.onmessage = function(evt) {
-        var res = JSON.parse(evt.data),
-            rm = res.data,
-            type = res.cmdtype;
-        switch (type) {
-            case "getchatinfo":
-                //主持精彩聊天有更新
-                NUM = rm;
-                console.log(NUM);
-                if (!WSnum) {
-                    // NUM = rm.data;
-                    window.WSnum = {};
-                    WSnum.host = NUM.subject;
-                    WSnum.wonder = NUM.special;
-                    WSnum.chat = NUM.chatroom;
-                } else {
-                    if (WSnum.host != rm.subject) {
-                        var s = parseInt(rm.subject) - parseInt(WSnum.host);
-                        var html = '主持<span class="weui-badge">' + s + '</span>';
-                        $("#main_navbar a[dataType='host']").html(html)
-                    }
-                    if (WSnum.wonder != rm.special) {
-                        var s = parseInt(rm.special) - parseInt(WSnum.wonder);
-                        var html = '精彩<span class="weui-badge">' + s + '</span>';
-                        $("#main_navbar a[dataType='wonder']").html(html)
-                    }
-                    if (WSnum.chat != rm.chatroom) {
-                        var s = parseInt(rm.chatroom) - parseInt(WSnum.chat);
-                        var html = '聊天<span class="weui-badge">' + s + '</span>';
-                        $("#main_navbar a[dataType='chat']").html(html)
-                    }
+ws.onmessage = function(evt) {
+    var res = JSON.parse(evt.data),
+        rm = res.data,
+        type = res.cmdtype;
+    switch (type) {
+        case "getchatinfo":
+            //主持精彩聊天有更新
+            NUM = rm;
+            console.log(NUM);
+            if (!WSnum) {
+                // NUM = rm.data;
+                window.WSnum = {};
+                WSnum.host = NUM.subject;
+                WSnum.wonder = NUM.special;
+                WSnum.chat = NUM.chatroom;
+            } else {
+                if (WSnum.host != rm.subject) {
+                    var s = parseInt(rm.subject) - parseInt(WSnum.host);
+                    var html = '主持<span class="weui-badge">' + s + '</span>';
+                    $("#main_navbar a[dataType='host']").html(html)
                 }
-                break;
-            case "changechatinfo":
-                //客户端设置有更新
-                if (rm.type == 1) {
-                    //基础设置
-                    //获取边看边聊借口信息
-                    var data = z_init.data;
-                    invoke({
-                        data: {
-                            m: params.bkbl,
-                            talk_id: data.talk_id,
-                            xopenid: data.xopenid,
-                            author: data.author
-                        },
-                        fun: function(d) {
-                            z_init.bkblInfo = d;
-                            z_init.init_part(d);
-                        }
-                    })
-                } else {
-                    //播报区
-                    z_init.get_broadList();
+                if (WSnum.wonder != rm.special) {
+                    var s = parseInt(rm.special) - parseInt(WSnum.wonder);
+                    var html = '精彩<span class="weui-badge">' + s + '</span>';
+                    $("#main_navbar a[dataType='wonder']").html(html)
                 }
-                break;
-        }
-    };
+                if (WSnum.chat != rm.chatroom) {
+                    var s = parseInt(rm.chatroom) - parseInt(WSnum.chat);
+                    var html = '聊天<span class="weui-badge">' + s + '</span>';
+                    $("#main_navbar a[dataType='chat']").html(html)
+                }
+            }
+            break;
+        case "changechatinfo":
+            //客户端设置有更新
+            if (rm.type == 1) {
+                //基础设置
+                //获取边看边聊借口信息
+                var data = z_init.data;
+                invoke({
+                    data: {
+                        m: params.bkbl,
+                        talk_id: data.talk_id,
+                        xopenid: data.xopenid,
+                        author: data.author
+                    },
+                    fun: function(d) {
+                        z_init.bkblInfo = d;
+                        // if (d.model == 2) {
+                        //     //幻灯片
+                        //     var source = d.source,
+                        //         html = '<div class="swiper-container2"><div class="swiper-wrapper">',
+                        //         script = "";
+                        //     for (var i = 0; i < source.length; i++) {
+                        //         var s = source[i],
+                        //             url = s.url,
+                        //             img = s.image;
+                        //         html += '<div class="swiper-slide"><a class="swiper2-slide-a" href="' + url + '"><img src="' + img + '""></a></div>';
+                        //     }
+                        //     html += '</div></div>';
+                        //     var script = '<script>\
+                        //            var mySwiper2 = new Swiper(".swiper-container2", {\
+                        //                                 autoplay: 5000,\
+                        //                             });\
+                        //         </script>';
+                        //     $("#video").html(html + script);
+                        // } else {
+                        //     //视频
+                        //     $("#video").html('<img src="' + d.image + '" style="height:100%;margin: 0 auto;display: block;"><span id="btn_playVideo"><i class="iconfont icon-bofang1"></i></span>');
+                        // };
+                        z_init.init_part(d);
+                    }
+                })
+            } else {
+                //播报区
+                z_init.get_broadList();
+            }
+            break;
+    }
 
-    ws.onclose = function() {
-        // 关闭 websocket
-        wsInit()
-        alert("连接已关闭...尝试重连");
-    };
-    ws.onerror = function(evt) {
-        alert("WebSocketError!");
-        // wsInit()
-    };
+};
 
-}
+ws.onclose = function() {
+    // 关闭 websocket
+    var ws = new WebSocket(URL_socket);
+    ws.send('{"talk_id":"' + TID + '","cmdtype":"getchatinfo","from":"wxchatxiaomai","to":"wxchatxiaomai","rtype":0}');
+    console.log("连接已关闭...尝试重连");
+};
+ws.onerror = function(evt) { console.log("WebSocketError!"); };

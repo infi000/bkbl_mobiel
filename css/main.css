@@ -360,8 +360,16 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    position: relative;
 }
+.swiper-slide-a a{
+        position: absolute;
+    left: 0;
+    width: 100%;
+    top: 5px;
+    bottom: 5px;
 
+}
 .viewType {
     width: 100%;
     position: relative;
