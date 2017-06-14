@@ -8,14 +8,14 @@ body {
     /*font-size: 10px;*/
     font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
     cursor: pointer;
+    background: #000;
 }
 
 ul {
     list-style: none;
 }
 
-.page,
-body {
+.page{
     background-color: #f8f8f8;
 }
 
@@ -43,16 +43,38 @@ body {
 }
 
 .wrap .showBox {
-    padding-bottom: 50px;
-    overflow: hidden;
+    padding-bottom: 60px;
+/*    overflow: hidden;
     overflow-y: scroll;
     box-sizing: border-box;
+    position: relative;*/
+}
+
+#toTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: red;
+    display: none;
 }
 
 .page_hd {
     width: 100%;
+        box-shadow: 0px 0px 7px 0px #4e4e4e;
 }
 
+.page_bd {
+    overflow: hidden;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    position: relative;
+}
+.page_bd .weui-tab__panel{
+    overflow: initial;
+}
+.page_bd .weui-tab{
+    height: initial;
+}
 #video {
     width: 100%;
     height: 240px;
@@ -108,13 +130,14 @@ body {
 .wrap .weui-media-box__desc {
     font-size: 14px;
     line-height: 1.4;
-    text-indent: .3em;
-    color: #4a4a4a;
+    /*text-indent: .3em;*/
+    color: #000;
 }
 
 .wrap .weui-media-box__desc img {
     box-sizing: border-box;
-    height: 100px;
+    max-height: 180px;
+    max-width: 280px;
     padding: 8px;
 }
 
@@ -163,12 +186,13 @@ body {
 .badge-top {
     font-size: 12px;
     margin-right: 4px;
-    margin-left: -.3em;
+    /*margin-left: -.3em;*/
     padding: 1px 5px;
     vertical-align: top;
     text-indent: 0;
     border-radius: 3px;
     background: #2196f3;
+    position: relative;
 }
 
 .rep_box {
@@ -217,10 +241,12 @@ body {
 .rep_info .weui-navbar {
     z-index: 1100;
     right: 28px;
-    width: 70%;
+    /*width: 70%; 有引用按键时*/
+    width: 50%;
     color: #fff;
     border-radius: 4px;
     background-color: #3c3432;
+    bottom: 0;
 }
 
 .rep_info .weui-navbar:after {
@@ -241,15 +267,64 @@ body {
     cursor: pointer;
 }
 
-.btn_playRecord {
-    width: 26%;
-    background: #9E9E9E;
-    padding: 2px;
+.btn_playRecord,
+.btn_playRecord2 {
+    width: 100px;
+    height: 32px;
+    background: #9eea6a;
     display: inline-block;
     border-radius: 2px;
     color: #fff;
     font-size: 12px;
     padding: 2px 4px;
+    position: relative;
+    margin-left: 10px;
+    box-sizing: border-box;
+    /*box-shadow: 0 0 0px 1px #e2e0e0*/
+}
+
+.s-arrow {
+    border: 8px solid rgba(0, 0, 0, 0);
+    position: absolute;
+    border-right-color: #9eea6a;
+    top: 4px;
+    left: -14px;
+}
+
+.audioIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 6px;
+    top: 50%;
+    margin-top: -10px;
+}
+
+.audioIcon img {
+    width: 100%;
+    height: 100%;
+    padding: 0!important;
+}
+
+.audioPlaying {
+    width: 8px;
+    height: 8px;
+    background: #fe4502;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -4px;
+    border-radius: 50%;
+}
+
+.voiceTime {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    right: -20px;
+    line-height: 32px;
+    font-size: 13px;
+    color: #9e9e9e;
 }
 
 .rep_info .btn_getTools i {
@@ -362,14 +437,15 @@ body {
     background-position: center;
     position: relative;
 }
-.swiper-slide-a a{
-        position: absolute;
+
+.swiper-slide-a a {
+    position: absolute;
     left: 0;
     width: 100%;
     top: 5px;
     bottom: 5px;
-
 }
+
 .viewType {
     width: 100%;
     position: relative;
@@ -383,7 +459,8 @@ body {
     top: 2px;
     font-size: 19px;
 }
-.viewType a{
+
+.viewType a {
     color: #1b5e94;
 }
 
@@ -420,8 +497,14 @@ body {
 }
 
 .wonder_p {
-    font-size: 12px;
-    margin-left: 0.3em;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    margin-bottom: 10px;
+    padding-right: 10px;
 }
 
 #wonder {
@@ -434,10 +517,10 @@ body {
 }
 
 #wonder .weui-cell {
-    -webkit-box-align: flex-start;
+    /*   -webkit-box-align: flex-start;
     -webkit-align-items: flex-start;
     align-items: flex-start;
-    padding: 4px 15px;
+    padding: 4px 15px;*/
 }
 
 #wonderBd .weui-media-box_appmsg {
@@ -520,7 +603,75 @@ body {
     height: 100%;
 }
 
-.btn_wonderRet{
-     padding: 6px 12px;
 
+/*.btn_wonderRet {
+    padding: 6px 12px;
+    color: red;
+    font-size: 20px;
+
+}
+*/
+
+.btn_wonderRet {
+    width: 38px;
+    /*background: blue;*/
+    display: block;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn_wonderRet span {
+    font-size: 14px;
+    margin-left: 2px;
+}
+
+.btn_wonderRet .iconfont {
+    font-size: 20px;
+    color: red;
+}
+
+.act_rl {
+    -webkit-animation: actname_rl 0.2s ease-in forwards;
+    -moz-animation: actname_rl 0.2s ease-in forwards;
+    animation: actname_rl 0.2s ease-in forwards;
+}
+
+@-webkit-keyframes actname_rl {
+    0% {
+        -webkit-transform: translatex(100%);
+        -moz-transform: translatex(100%);
+        transform: translatex(100%);
+    }
+    100% {
+        -webkit-transform: translatex(0);
+        -moz-transform: translatex(0);
+        transform: translatex(0);
+    }
+}
+
+@-moz-keyframes actname_rl {
+    0% {
+        -webkit-transform: translatex(100%);
+        -moz-transform: translatex(100%);
+        transform: translatex(100%);
+    }
+    100% {
+        -webkit-transform: translatex(0);
+        -moz-transform: translatex(0);
+        transform: translatex(0);
+    }
+}
+
+@keyframes actname_rl {
+    0% {
+        -webkit-transform: translatex(100%);
+        -moz-transform: translatex(100%);
+        transform: translatex(100%);
+    }
+    100% {
+        -webkit-transform: translatex(0);
+        -moz-transform: translatex(0);
+        transform: translatex(0);
+    }
 }

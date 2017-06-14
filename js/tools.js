@@ -2,7 +2,7 @@ var DO = document,
     $DB = $("body"),
     mainVar = {},
     URL_dev = "http://www.xiaomaizhibo.com/cloudtest/",
-    URL_socket = "ws://10.20.50.65:8124",
+    URL_socket = "ws://221.228.74.71:8124",
     params = {
         userInfo: 2109, //用户信息
         chatList: 7202, //聊天接口
@@ -30,6 +30,8 @@ var DO = document,
     XID = getSearch().xopenid || "",
     TID = getSearch().talk_id || "",
     AU = getSearch().author || "",
+    PW = localStorage.getItem("homePW") || "",
+    PWT = localStorage.getItem("homePW_time") || "",
     atoken = "";
 
 function getSearch(str) {
@@ -97,13 +99,10 @@ function arrayDel(arr, val) {
             var clientWidth = docEl.clientWidth;
             var clientHeight = docEl.clientHeight;
             if (!clientWidth) return;
-
-            console.log(clientHeight, clientWidth);
             //客户端变换
             //1banner 高度 2评论区高度 3视频高度
-
             var bn1 = $(".swiper-slide-a"),
-                con = $("#container"),
+                con = $(".page_bd"),
                 video = $("#video"),
                 bn1_h = 0,
                 con_h,
@@ -114,13 +113,20 @@ function arrayDel(arr, val) {
             // }
             if (typeOf(video[0]) == "dom") {
                 video_h = $DB.width() * (9 / 16);
+                    if(video_h>500){
+                        video_h=500;
+                    }
                 video.height(video_h);
             }
             if (typeOf(con[0]) == "dom") {
-                var hd_h = $(".page_hd").height() + 50,
-                    con_h = clientHeight - hd_h - 100;
-                console.log(clientHeight, hd_h, con_h);
-                con.height(con_h)
+                // var hd_h = $(".page_hd").height() + 50,
+                //     con_h = clientHeight - hd_h - 100;
+                // var hd_h = video_h + 50,
+                //     con_h = clientHeight - hd_h - 100;
+                // console.log(clientHeight, hd_h, con_h);
+                // con.height(con_h)
+                var con_h=clientHeight-video_h;
+                con.height(con_h);
             }
 
         };
@@ -129,10 +135,10 @@ function arrayDel(arr, val) {
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 
-function imgError(image, url,style) {
+function imgError(image, url, style) {
     image.onerror = "";
     image.src = url || "./img/logo2.png";
-    var _s=style||{};
+    var _s = style || {};
     $(image).css(_s);
     return true;
 }
@@ -146,8 +152,13 @@ function getAtoken() {
         }
     });
 };
+
 function timestamp() {
     //时间戳
     return new Date().getTime()
 };
 
+//字符串长度
+function strlen(str) {
+    return str.replace(/[^\x00-\xff]/g, "**").length;
+}
