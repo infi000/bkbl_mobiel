@@ -26,6 +26,7 @@ var DO = document,
         wonderDelRetort: 7258, //取消精彩点赞
         getWonder: 7259, //精彩详情
         getShare: 7116, //获取分享设置
+        count: 7130, //统计
     },
     XID = getSearch().xopenid || "",
     TID = getSearch().talk_id || "",

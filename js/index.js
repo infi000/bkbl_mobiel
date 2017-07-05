@@ -54,7 +54,6 @@ function Z_init() {
     };
     this.bkblInfo = {}; //边看边聊信息
     this.data = {
-        uid: 1000010012,
         // talk_id: TID || "db5f5add5a74aa627d48b7d7da1c4b00",
         // xopenid: XID || "oXhPVvmTMDsrjcD0eb9yltn9N4Z4",
         // author: AU || 'R3ozMvIAQfcOPjsE1HOqa1ZjYJsaoXerhqn1l8TPtskJnqw1z9ofTTyNx9dC6EwYbpo_NFrLxPMyE0H1R8r-JQ'
@@ -535,6 +534,7 @@ function Z_init() {
             invoke({
                 data: data,
                 fun: function(d) {
+                    that.count({ type: 4 })
                     $(_this).html(parseInt(num) + 1);
                 },
                 err: function(d) {
@@ -869,7 +869,10 @@ function Z_init() {
         $("#main_navbar").html(h + w + c);
         //发起socket链接
         if (!ws.hasInit) {
+                        ws.send('{"talk_id":"' + TID + '","cmdtype":"login","xopenid":"'+XID+'","author":"'+AU+'","from":"wxchatxiaomai","to":"xiaomaiserver","data":""}');
+
             ws.send('{"talk_id":"' + TID + '","cmdtype":"getchatinfo","from":"wxchatxiaomai","to":"wxchatxiaomai","rtype":0}');
+
             ws.hasInit = true;
         }
     };
@@ -1185,6 +1188,10 @@ function Z_init() {
                 // title:标题
                 // special:"0"精彩0关、1开
                 // subject:"1"主持
+                if (!that.hasCount) {
+                    that.count({ type: 1 });
+                    that.hasCount = true;
+                }
                 that.checkPW(d);
             }
         });
@@ -1539,6 +1546,7 @@ function Z_init() {
                 $(that.ele.comment).remove();
                 that.toggle_video();
                 ws.send('{"talk_id":"' + TID + '","cmdtype":"getchatinfo","from":"wxchatxiaomai","to":"wxchatxiaomai","rtype":1}');
+                that.count({ type: 3 })
             }
         });
     };
@@ -1568,6 +1576,7 @@ function Z_init() {
             },
             fun: function(_) {
                 var d = reEle.find(".rep_box_repo");
+                that.count({ type: 2 })
                 if (typeOf(d[0]) == "dom") {
                     //存在回复框
                     var head = data.head,
@@ -1642,6 +1651,7 @@ function Z_init() {
         invoke({
             data: data,
             fun: function(d) {
+                that.count({ type: 2 })
                 $(that.ele.comment).slideDown('fast').remove();
                 that.toggle_video();
                 var _data = { head: that.data.head, nickname: that.data.nickname, date: "刚刚", message: msg };
@@ -1666,6 +1676,7 @@ function Z_init() {
                 author: data.author
             },
             fun: function(_) {
+                that.count({ type: 4 })
                 var d = reEle.find(".rep_box_retort"),
                     id = _,
                     head = that.data.head;
@@ -1857,6 +1868,26 @@ function Z_init() {
         delete that.audio_playing;
         delete that.audio_playEle
     };
+    //统计接口
+    this.count = function(opt) {
+        var $opt = opt || {},
+            type = $opt.type,
+            boxid = that.bkblInfo.boxid || "",
+            data = {
+                m: params.count,
+                talk_id: this.data.talk_id,
+                xopenid: this.data.xopenid,
+                type: type,
+                box: boxid
+            };
+        invoke({
+            data: data,
+            fun: function(d) {
+                console.log(d);
+            }
+        })
+
+    };
 
     function close() {
         $(that.ele.mask).remove();
@@ -1877,7 +1908,7 @@ wx.ready(function() {
                 imgUrl: d.image,
                 link: d.url,
                 success: function() {
-
+                    z_init.count({ type: 5 })
                 },
                 cancel: function() {
 
@@ -1922,6 +1953,7 @@ function wsInit() {
     ws.onopen = function() {
         // Web Socket 已连接上，使用 send() 方法发送数据
         // alert("链接成功...");
+        console.log("链接成功")
     };
 
     ws.onmessage = function(evt) {

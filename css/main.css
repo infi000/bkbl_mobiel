@@ -422,6 +422,7 @@ ul {
     display: block;
     height: 100%;
     text-align: center;
+    background: #000;
 }
 
 .swiper2-slide-a img {
