@@ -869,10 +869,8 @@ function Z_init() {
         $("#main_navbar").html(h + w + c);
         //发起socket链接
         if (!ws.hasInit) {
-                        ws.send('{"talk_id":"' + TID + '","cmdtype":"login","xopenid":"'+XID+'","author":"'+AU+'","from":"wxchatxiaomai","to":"xiaomaiserver","data":""}');
-
+            ws.send('{"talk_id":"' + TID + '","cmdtype":"login","xopenid":"' + XID + '","author":"' + AU + '","from":"wxchatxiaomai","to":"xiaomaiserver","data":""}');
             ws.send('{"talk_id":"' + TID + '","cmdtype":"getchatinfo","from":"wxchatxiaomai","to":"wxchatxiaomai","rtype":0}');
-
             ws.hasInit = true;
         }
     };
